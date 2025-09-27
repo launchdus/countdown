@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .tv-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tv-image {
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .countdown-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 3vw;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 300px;
+        }
+        
+        .team-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .countdown-timer {
+            font-size: 2em;
+            font-family: 'Courier New', monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .countdown-overlay {
+                font-size: 4vw;
+                min-width: 250px;
+                padding: 15px;
+            }
+            
+            .team-logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .team-logos {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tv-container">
+        <img src="tv.jpg" alt="TV" class="tv-image">
+        <div class="countdown-overlay">
+            <div class="team-logos">
+                <img src="minnesota-gophers.png" alt="Minnesota Gophers" class="team-logo">
+                <img src="ohiostate.png" alt="Ohio State" class="team-logo">
+            </div>
+            <div id="countdown" class="countdown-timer">00:00:00:00</div>
+        </div>
+    </div>
+
+    <script>
+        function updateCountdown() {
+            // Target date: October 4th, 2025 at 7:30 PM
+            const targetDate = new Date('2025-10-04T19:30:00').getTime();
+            const now = new Date().getTime();
+            const timeLeft = targetDate - now;
+
+            if (timeLeft > 0) {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                // Format with leading zeros
+                const formatTime = (time) => time.toString().padStart(2, '0');
+
+                document.getElementById('countdown').textContent = 
+                    `${formatTime(days)}:${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+            } else {
+                document.getElementById('countdown').textContent = 'TIME\'S UP!';
+            }
+        }
+
+        // Update countdown immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
